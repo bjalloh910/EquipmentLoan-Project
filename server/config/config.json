@@ -1,0 +1,29 @@
+{
+  "development": {
+    "username": "root",
+    "password": "kL3pq-$bi255",
+    "database": "sal_db",
+    "dialectOptions": {
+      "socketPath": "/tmp/mysql.sock"
+    },
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "kL3pq-$bi255",
+    "database": "sal_db_test",
+    "dialectOptions": {
+      "socketPath": "/tmp/mysql.sock"
+    },
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "kL3pq-$bi255",
+    "database": "sal_db_production",
+    "dialectOptions": {
+      "socketPath": "/tmp/mysql.sock"
+    },
+    "dialect": "mysql"
+  }
+} 
