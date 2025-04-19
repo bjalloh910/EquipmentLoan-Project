@@ -1,8 +1,17 @@
 const express = require('express');
 const path = require('path');
-const { sequelize } = require('./models'); // assuming index.js in models exports sequelize
+const db = require('./models'); // Import the db object
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Log database configuration (without sensitive info)
+console.log('Database Config:', {
+  host: db.sequelize.config.host,
+  port: db.sequelize.config.port,
+  database: db.sequelize.config.database,
+  username: db.sequelize.config.username,
+  dialect: db.sequelize.config.dialect
+});
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../client')));
@@ -15,9 +24,15 @@ app.get('/api/hello', (req, res) => {
 app.listen(PORT, async () => {
   console.log(`Server is running on http://localhost:${PORT}`);
   try {
-    await sequelize.authenticate();
+    await db.sequelize.authenticate();
     console.log('Database connected ✅');
   } catch (err) {
-    console.error('Database error ❌:', err);
+    console.error('Database connection error ❌');
+    console.error('Error details:', err.message);
+    console.error('Error name:', err.name);
+    if (err.parent) {
+      console.error('Original error:', err.parent.message);
+      console.error('Error code:', err.parent.code);
+    }
   }
 });
