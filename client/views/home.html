@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipment Loan System</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <h1>EquipTrack</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/home" class="active">Home</a></li>
+            <li><a href="/equipment">Equipment</a></li>
+            <li><a href="/loans">Loans</a></li>
+            <li><a href="/users">Users</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <header class="hero">
+            <h1>Equipment Loan Management System</h1>
+            <p>Track and manage equipment loans efficiently</p>
+        </header>
+
+        <section class="quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="action-cards">
+                <div class="card">
+                    <i class="fas fa-boxes"></i>
+                    <h3>View Equipment</h3>
+                    <p>Browse available equipment</p>
+                    <a href="/equipment" class="btn">View Inventory</a>
+                </div>
+                <div class="card">
+                    <i class="fas fa-hand-holding"></i>
+                    <h3>Current Loans</h3>
+                    <p>Check ongoing loans</p>
+                    <a href="/loans" class="btn">View Loans</a>
+                </div>
+                <div class="card">
+                    <i class="fas fa-history"></i>
+                    <h3>Loan History</h3>
+                    <p>View past transactions</p>
+                    <a href="/history" class="btn">View History</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="dashboard-summary">
+            <h2>System Overview</h2>
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <h4>Total Equipment</h4>
+                    <p id="total-equipment">Loading...</p>
+                </div>
+                <div class="summary-card">
+                    <h4>Active Loans</h4>
+                    <p id="active-loans">Loading...</p>
+                </div>
+                <div class="summary-card">
+                    <h4>Available Items</h4>
+                    <p id="available-items">Loading...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Equipment Loan System. All rights reserved.</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

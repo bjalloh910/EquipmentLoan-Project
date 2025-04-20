@@ -4,6 +4,10 @@ const db = require('./models'); // Import the db object
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Import Routes here 
+const indexRoutes = require('./routes/index');
+const homeRoutes = require('./routes/home');
+
 // Log database configuration (without sensitive info)
 console.log('Database Config:', {
   host: db.sequelize.config.host,
@@ -15,6 +19,12 @@ console.log('Database Config:', {
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../client')));
+
+
+// Use Routes
+app.use('/', indexRoutes);
+app.use('/home', homeRoutes);
+
 
 // Example API
 app.get('/api/hello', (req, res) => {
