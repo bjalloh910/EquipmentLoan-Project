@@ -1,0 +1,9 @@
+serial_code,personnel_number,date_out,date_in,location,purpose,unites,comments
+BAD-GPS-01,991478344,"June 14, 2022","September 7, 2022",MacLeish Field Station,Research,1048,Charger
+EOS-GPS-01,993208711,"July 1, 2021","July 8, 2021",,Testing,8642,
+BAD-GPS-02,992194833,"October 24, 2017","March 11, 2021",Smith Campus,Testing,1048,
+EOS-GPS-01,996781240,"September 4, 2023","September 8, 2023",Nantucket,Research,,"EOS arrow Gold, iPad, and Survey pole"
+EOS-GPS-02,990562478,"November 6, 2024","November 7, 2024",Smith Campus,Research,,Mapping stuff for Landscape Studies Studio
+BAD-GPS-01,998934176,"October 17, 2024","November 6, 2024",Williamsburg,Research,,"Mapping Trees, checked out 3 units"
+IPD-TAB-01,991847265,"April 16, 2025",,Williamsburg,Research,,xyz
+DJI-DRN-01,996781240,"March 10, 2025",,Smith Campus,Testing,,
