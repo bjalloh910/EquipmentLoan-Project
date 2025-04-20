@@ -1,11 +1,11 @@
-serial_code,model,make,equip_type,purchase_date,checkout_status,firmware_update,health,notes,total_days_inuse
-BAD-GPS-01,GNSS Surveyor,Bad Elf,GPS,2016-12-01,available,2017-06-06,,,50
-BAD-GPS-02,GNSS Surveyor,Bad Elf,GPS,2016-12-01,in use,2017-06-06,Broken Display,Missing,20
-LTI-LSR-01,TruPulse 360,LTI,Laser Rangefinder,2010-05-01,available,2009-04-03,,,0
-LTI-LSR-02,TruPulse 360,LTI,Laser Rangefinder,2010-05-01,in use,2003-02-07,,,0
-EOS-GPS-01,Arrow Gold,EOS,GPS,2019-02-28,available,,,12
-EOS-GPS-02,Arrow 100,EOS,GPS,2019-02-28,available,,,8
-EOS-POL-01,Arrow Pole,EOS,Range Pole,,in use,,Bubble level glue replaced 2021,0
-IPD-TAB-01,5th Gen - MP2J2LL/A,iPad,Tablet,,,,,0
-EML-GPS-01,Reach RS+,Emlid,GPS,,,,,0
-DJI-DRN-01,Mavic 3 E,DJI,Drone,2024-01-01,available,2024-08-22,,,10
+serial_code,make,model,equip_type,purchase_date,firmware_update,checkout_status,health,notes,days_in_use
+BAD-GPS-01,Bad Elf,GNSS Surveyor,GPS,"December 1, 2016","June 6, 2017",available,,,50
+BAD-GPS-02,Bad Elf,GNSS Surveyor,GPS,"December 1, 2016","June 6, 2017",available,Broken Display,Missing,20
+LTI-LSR-01,LTI,TruPulse 360,Laser Rangefinder,"May 1, 2010",4/3/2009,available,,,
+LTI-LSR-02,LTI,TruPulse 360,Laser Rangefinder,"May 1, 2010",2/7/2003,available,,,
+EOS-GPS-01,EOS,Arrow Gold,GPS,"February 28, 2019",,available,,,12
+EOS-GPS-02,EOS,Arrow 100,GPS,"February 28, 2019",,available,,,8
+EOS-POL-01,EOS,Arrow Pole,Range Pole,,,available,,Bubble level glue replaced 2021,
+IPD-TAB-01,iPad,5th Gen - MP2J2LL/A,Tablet,,,in use,,,
+EML-GPS-01,Emlid,Reach RS+,GPS,,,available,,,
+DJI-DRN-01,DJI,Mavic 3 E,Drone,2024,7/22/2024,in use,,,10
