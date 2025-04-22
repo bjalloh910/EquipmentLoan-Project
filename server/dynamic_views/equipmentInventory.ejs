@@ -97,6 +97,34 @@
             background-color: #fde8e8;
             color: #9b1c1c;
         }
+        
+        .no-results {
+            text-align: center;
+            padding: 3rem !important;
+        }
+        
+        .no-results-message {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+        }
+        
+        .no-results-message p {
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+        }
+        
+        .clear-search {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .clear-search:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -138,31 +166,47 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% equipment.forEach(item => { %>
+                    <% if (equipment && equipment.length > 0) { %>
+                        <% equipment.forEach(item => { %>
+                            <tr>
+                                <td><strong><%= item.model %></strong></td>
+                                <td><%= item.make %></td>
+                                <td><%= item.serial_code %></td>
+                                <td><%= item.equip_type %></td>
+                                <td><%= new Date(item.purchase_date).toLocaleDateString() %></td>
+                                <td>
+                                    <span class="health-indicator <%= 
+                                        item.health >= 80 ? 'health-good' : 
+                                        item.health >= 50 ? 'health-warning' : 
+                                        'health-critical' 
+                                    %>">
+                                        <%= item.health %>
+                                    </span>
+                                </td>
+                                <td><%= item.total_days_inuse %></td>
+                                <td><%= item.firmware_update %></td>
+                                <td>
+                                    <span class="status-badge <%= item.checkout_status.toLowerCase() === 'available' ? 'status-available' : 'status-checked-out' %>">
+                                        <%= item.checkout_status %>
+                                    </span>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
                         <tr>
-                            <td><strong><%= item.model %></strong></td>
-                            <td><%= item.make %></td>
-                            <td><%= item.serial_code %></td>
-                            <td><%= item.equip_type %></td>
-                            <td><%= new Date(item.purchase_date).toLocaleDateString() %></td>
-                            <td>
-                                <span class="health-indicator <%= 
-                                    item.health >= 80 ? 'health-good' : 
-                                    item.health >= 50 ? 'health-warning' : 
-                                    'health-critical' 
-                                %>">
-                                    <%= item.health %>
-                                </span>
-                            </td>
-                            <td><%= item.total_days_inuse %></td>
-                            <td><%= item.firmware_update %></td>
-                            <td>
-                                <span class="status-badge <%= item.checkout_status.toLowerCase() === 'available' ? 'status-available' : 'status-checked-out' %>">
-                                    <%= item.checkout_status %>
-                                </span>
+                            <td colspan="9" class="no-results">
+                                <div class="no-results-message">
+                                    <i class="fas fa-search" style="font-size: 2rem; color: #ccc; margin-bottom: 1rem;"></i>
+                                    <p>No equipment found matching your search criteria.</p>
+                                    <% if (typeof searchQuery !== 'undefined' && searchQuery) { %>
+                                        <p>Try searching for something else or <a href="/equipment" class="clear-search">view all equipment</a>.</p>
+                                    <% } else { %>
+                                        <p>No equipment is currently in the inventory.</p>
+                                    <% } %>
+                                </div>
                             </td>
                         </tr>
-                    <% }) %>
+                    <% } %>
                 </tbody>
             </table>
         </div>
