@@ -114,10 +114,12 @@
     <main class="inventory-container">
         <div class="inventory-header">
             <h1><i class="fas fa-boxes" style="color: #007bff;" ></i> Equipment Inventory</h1>
-            <div style="position: relative; display: inline-block;">
-                <input type="text" class="search-bar" placeholder="Search equipment...">
-                <i class="fas fa-search" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #666;"></i>
-            </div>
+            <form action="/equipment/search" method="GET" style="position: relative; display: inline-block;">
+                <input type="text" name="query" class="search-bar" placeholder="Search equipment...">
+                <button type="submit" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer;">
+                    <i class="fas fa-search" style="color: #666;"></i>
+                </button>
+            </form>
         </div>
 
         <div class="table-responsive">

@@ -1,4 +1,5 @@
 const { Equipment } = require('../models');
+const { Op } = require('sequelize');
 
 exports.showInventory = async (req, res) => {
     try {
@@ -7,6 +8,35 @@ exports.showInventory = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).send('Failed to load inventory')
+    }
+}
+
+exports.searchEquipment = async (req, res) => {
+    try {
+        const { query } = req.query;
+        
+        if (!query) {
+            return res.redirect('/equipment');
+        }
+
+        const searchResults = await Equipment.findAll({
+            where: {
+                [Op.or]: [
+                    { model: { [Op.like]: `%${query}%` } },
+                    { make: { [Op.like]: `%${query}%` } },
+                    { serial_code: { [Op.like]: `%${query}%` } },
+                    { equip_type: { [Op.like]: `%${query}%` } }
+                ]
+            }
+        });
+
+        res.render('equipmentInventory', { 
+            equipment: searchResults,
+            searchQuery: query
+        });
+    } catch (error) {
+        console.error('Search error:', error);
+        res.status(500).send('Failed to perform search');
     }
 }
 
