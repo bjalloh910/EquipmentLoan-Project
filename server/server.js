@@ -4,9 +4,15 @@ const db = require('./models'); // Import the db object
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
+// telling express where my EJS files are located
+app.set('views', path.join(__dirname, 'dynamic_views'));
+app.set('view engine', 'ejs');
+
 // Import Routes here 
 const indexRoutes = require('./routes/index');
 const homeRoutes = require('./routes/home');
+const inventoryRoutes = require('./routes/equipmentInventory');
 
 // Log database configuration (without sensitive info)
 console.log('Database Config:', {
@@ -24,7 +30,7 @@ app.use(express.static(path.join(__dirname, '../client')));
 // Use Routes
 app.use('/', indexRoutes);
 app.use('/home', homeRoutes);
-
+app.use('/', inventoryRoutes);
 
 // Example API
 app.get('/api/hello', (req, res) => {
