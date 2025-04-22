@@ -42,10 +42,10 @@ exports.searchEquipment = async (req, res) => {
 
 exports.toggleEquipmentStatus = async (req, res) => {
     try {
-        const { serialCode, newStatus } = req.body;
+        const { serial_code, newStatus } = req.body;
 
         // Validate the input
-        if (!serialCode || !newStatus) {
+        if (!serial_code || !newStatus) {
             return res.status(400).json({ error: 'Serial code and new status are required' });
         }
 
@@ -55,7 +55,7 @@ exports.toggleEquipmentStatus = async (req, res) => {
         }
 
         // Find the equipment by serial code
-        const equipment = await Equipment.findOne({ where: { serial_code: serialCode } });
+        const equipment = await Equipment.findOne({ where: { serial_code: serial_code } });
 
         if (!equipment) {
             return res.status(404).json({ error: 'Equipment not found' });
@@ -68,7 +68,7 @@ exports.toggleEquipmentStatus = async (req, res) => {
             success: true, 
             message: 'Status updated successfully',
             equipment: {
-                serialCode: equipment.serial_code,
+                serial_code: equipment.serial_code,
                 status: equipment.checkout_status
             }
         });
