@@ -209,15 +209,21 @@
             margin-bottom: 0.5rem;
             font-weight: 500;
             color: #333;
+            font-size: 1.1rem;
         }
 
-        .form-group input, .form-group select {
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid #ddd;
             border-radius: 4px;
-            font-size: 1rem;
+            font-size: 1.1rem;
             transition: border-color 0.2s;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
         }
 
         .form-group input:focus, .form-group select:focus {
@@ -547,7 +553,9 @@
                     </div>
                     <div class="form-group">
                         <label for="delete_equipment">Delete Equipment</label>
-                        <input type="button" id="delete_equipment" value="Delete Equipment">
+                        <button type="button" id="delete_equipment" class="delete-btn">
+                            <i class="fas fa-trash-alt"></i> Delete Equipment
+                        </button>
                     </div>
                     <div class="form-actions">
                         <button type="button" class="cancel-btn" id="cancelEditEquipment">Cancel</button>

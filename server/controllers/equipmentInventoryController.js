@@ -139,17 +139,11 @@ exports.addEquipment = async (req, res) => {
 
 exports.deleteEquipment = async (req, res) => {
     try {
-        const { serial_code } = req.params;
+        const equipmentId  = req.params.id;
 
-        // Find the equipment
-        const equipment = await Equipment.findOne({ where: { serial_code } });
-        
-        if (!equipment) {
-            return res.status(404).json({ error: 'Equipment not found' });
-        }
+        console.log('Going to delete equipment with ID:', equipmentId);
 
-        // Delete the equipment
-        await equipment.destroy();
+        await Equipment.destroy({ where: {id: equipmentId}});
 
         res.json({ 
             success: true, 

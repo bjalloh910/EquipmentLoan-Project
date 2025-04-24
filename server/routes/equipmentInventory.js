@@ -7,7 +7,7 @@ router.get('/', inventoryController.showInventory);
 router.get('/search', inventoryController.searchEquipment);
 router.post('/toggle-status', inventoryController.toggleEquipmentStatus);
 router.post('/add', inventoryController.addEquipment);
-router.delete('/delete/:serial_code', inventoryController.deleteEquipment);
+router.delete('/delete/:id', inventoryController.deleteEquipment);
 router.put('/update/:serial_code', inventoryController.updateEquipment);
 
 module.exports = router;
