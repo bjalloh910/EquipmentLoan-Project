@@ -11,6 +11,7 @@ exports.showInventory = async (req, res) => {
     }
 }
 
+
 exports.searchEquipment = async (req, res) => {
     try {
         const { query } = req.query;
@@ -39,6 +40,7 @@ exports.searchEquipment = async (req, res) => {
         res.status(500).send('Failed to perform search');
     }
 }
+
 
 exports.toggleEquipmentStatus = async (req, res) => {
     try {
@@ -77,3 +79,123 @@ exports.toggleEquipmentStatus = async (req, res) => {
         res.status(500).json({ error: 'Failed to update status' });
     }
 }
+
+// Add new equipment logic
+exports.addEquipment = async (req, res) => {
+    try {
+        const {
+            serial_code, 
+            model, 
+            make, 
+            equip_type, 
+            purchase_date, 
+            checkout_status, 
+            health,
+            firmware_update,
+            total_days_inuse,
+            notes
+        } = req.body;
+
+        // Validate required fields
+        if (!serial_code || !model || !make || !equip_type) {
+            return res.status(400).json({ error: 'All fields are required' });
+        }
+
+        // Check if equipment already exists
+        const existingEquipment = await Equipment.findOne({ where: { serial_code } });
+        if (existingEquipment) {
+            return res.status(400).json({ error: 'Equipment with this serial code already exists' });
+        }
+        
+        // Create new equipment
+        const newEquipment = await Equipment.create({
+            serial_code,
+            model,
+            make,
+            equip_type,
+            purchase_date,
+            checkout_status,
+            health,
+            firmware_update,
+            total_days_inuse: total_days_inuse === null ? null : parseInt(total_days_inuse),
+            notes
+        });
+
+        res.status(201).json({
+            success: true,
+            message: 'Equipment added successfully',
+            equipment: newEquipment
+        });
+        
+    } catch (error) {
+        console.error('Error adding equipment:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to add equipment',
+            error: error.message
+        });
+    }
+}
+
+exports.deleteEquipment = async (req, res) => {
+    try {
+        const { serial_code } = req.params;
+
+        // Find the equipment
+        const equipment = await Equipment.findOne({ where: { serial_code } });
+        
+        if (!equipment) {
+            return res.status(404).json({ error: 'Equipment not found' });
+        }
+
+        // Delete the equipment
+        await equipment.destroy();
+
+        res.json({ 
+            success: true, 
+            message: 'Equipment deleted successfully' 
+        });
+    } catch (error) {
+        console.error('Error deleting equipment:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Failed to delete equipment',
+            error: error.message 
+        });
+    }
+};
+
+exports.updateEquipment = async (req, res) => {
+    const { serial_code } = req.params;
+    const updateData = req.body;
+    
+    console.log('Update request received for serial_code:', serial_code);
+    console.log('Update data:', updateData);
+
+    try {
+        const equipment = await Equipment.findOne({ where: { serial_code } });
+        
+        if (!equipment) {
+            console.log('Equipment not found for serial_code:', serial_code);
+            return res.status(404).json({ message: 'Equipment not found' });
+        }
+
+        // Update the equipment with the new data
+        await equipment.update(updateData);
+        console.log('Equipment updated successfully');
+
+        res.json({ message: 'Equipment updated successfully', equipment });
+    } catch (error) {
+        console.error('Error updating equipment:', error);
+        res.status(500).json({ message: 'Failed to update equipment', error: error.message });
+    }
+};
+
+module.exports = {
+    showInventory: exports.showInventory,
+    searchEquipment: exports.searchEquipment,
+    toggleEquipmentStatus: exports.toggleEquipmentStatus,
+    addEquipment: exports.addEquipment,
+    deleteEquipment: exports.deleteEquipment,
+    updateEquipment: exports.updateEquipment,
+};

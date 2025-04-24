@@ -17,6 +17,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
+            padding: 1rem;
         }
         .search-bar {
             padding: 0.5rem 1rem;
@@ -29,13 +30,20 @@
             border-color: #007bff;
             box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
         }
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
         .equipment-table {
             width: 100%;
+            min-width: 1200px;
             border-collapse: collapse;
             background: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            overflow: hidden;
+            margin-bottom: 0;
         }
         .equipment-table th {
             background: #4a9eff;
@@ -44,10 +52,12 @@
             font-weight: 600;
             color: #333;
             border-bottom: 2px solid #dee2e6;
+            white-space: nowrap;
         }
         .equipment-table td {
             padding: 1rem;
             border-bottom: 1px solid #dee2e6;
+            white-space: nowrap;
         }
         .equipment-table tr:hover {
             background-color: #f8f9fa;
@@ -125,6 +135,172 @@
         .clear-search:hover {
             text-decoration: underline;
         }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow: auto;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 8px;
+            width: 60%;
+            max-width: 600px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.3s;
+        }
+
+        @keyframes modalFadeIn {
+            from {opacity: 0; transform: translateY(-20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .modal-header {
+            padding: 1rem 1.5rem;
+            background-color: #4a9eff;
+            color: white;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .close-modal {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .close-modal:hover {
+            transform: scale(1.1);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #4a9eff;
+            box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.2);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .cancel-btn {
+            padding: 0.75rem 1.5rem;
+            background-color: #f1f1f1;
+            color: #333;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .cancel-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        .submit-btn {
+            padding: 0.75rem 1.5rem;
+            background-color: #4a9eff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: #3a8eef;
+        }
+
+        /* Button Styles */
+        .edit-btn {
+            padding: 0.4rem 1rem;
+            background-color: #4a9eff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .edit-btn:hover {
+            background-color: #3a8eef;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .delete-btn {
+            padding: 0.75rem 1.5rem;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            margin-right: 1rem;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
@@ -142,12 +318,17 @@
     <main class="inventory-container">
         <div class="inventory-header">
             <h1><i class="fas fa-boxes" style="color: #007bff;" ></i> Equipment Inventory</h1>
-            <form action="/equipment/search" method="GET" style="position: relative; display: inline-block;">
-                <input type="text" name="query" class="search-bar" placeholder="Search equipment...">
-                <button type="submit" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer;">
-                    <i class="fas fa-search" style="color: #666;"></i>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <form action="/equipment/search" method="GET" style="position: relative; display: inline-block;">
+                    <input type="text" name="query" class="search-bar" placeholder="Search equipment...">
+                    <button type="submit" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer;">
+                        <i class="fas fa-search" style="color: #666;"></i>
+                    </button>
+                </form>
+                <button id="addEquipmentBtn" style="background-color: #4a9eff; color: white; border: none; border-radius: 4px; padding: 0.5rem 1rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; cursor: pointer; transition: background-color 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <i class="fas fa-plus"></i> Add Equipment
                 </button>
-            </form>
+            </div>
         </div>
 
         <div class="table-responsive">
@@ -163,17 +344,19 @@
                         <th>Days in Use</th>
                         <th>Firmware</th>
                         <th>Status</th>
+                        <th>Notes</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="equipmentTableBody">
                     <% if (equipment && equipment.length > 0) { %>
                         <% equipment.forEach(item => { %>
-                            <tr>
+                            <tr data-id="<%= item.id %>">
                                 <td><strong><%= item.model %></strong></td>
                                 <td><%= item.make %></td>
                                 <td><%= item.serial_code %></td>
                                 <td><%= item.equip_type %></td>
-                                <td><%= new Date(item.purchase_date).toLocaleDateString() %></td>
+                                <td><%= item.purchase_date ? new Date(item.purchase_date).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '' %></td>
                                 <td>
                                     <span class="health-indicator <%= 
                                         item.health >= 80 ? 'health-good' : 
@@ -184,11 +367,19 @@
                                     </span>
                                 </td>
                                 <td><%= item.total_days_inuse %></td>
-                                <td><%= item.firmware_update %></td>
+                                <td><%= item.firmware_update ? new Date(item.firmware_update).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '' %></td>
                                 <td>
                                     <span class="status-badge <%= item.checkout_status.toLowerCase() === 'available' ? 'status-available' : 'status-checked-out' %>">
                                         <%= item.checkout_status %>
                                     </span>
+                                </td>
+                                <td>
+                                    <%= item.notes %>
+                                </td>
+                                <td>
+                                    <button class="edit-btn" data-serial="<%= item.serial_code %>">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
                                 </td>
                             </tr>
                         <% }) %>
@@ -216,6 +407,158 @@
         <p>&copy; 2025 Equipment Loan System. All rights reserved.</p>
     </footer>
 
+    <!-- Add Equipment Modal -->
+    <div id="addEquipmentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-plus-circle"></i> Add New Equipment</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addEquipmentForm">
+                    <div class="form-group">
+                        <label for="model">Model</label>
+                        <input type="text" id="model" name="model" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="make">Make</label>
+                        <input type="text" id="make" name="make" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="serial_code">Serial Code</label>
+                        <input type="text" id="serial_code" name="serial_code" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="equip_type">Equipment Type</label>
+                        <select id="equip_type" name="equip_type" required>
+                            <option value="">Select Type</option>
+                            <option value="Laptop">Laptop</option>
+                            <option value="Desktop">Desktop</option>
+                            <option value="Monitor">Monitor</option>
+                            <option value="Printer">Printer</option>
+                            <option value="Projector">Projector</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <div id="customTypeContainer" style="display: none; margin-top: 0.5rem;">
+                            <input type="text" id="custom_equip_type" name="custom_equip_type" placeholder="Enter equipment type">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout_status">Checkout Status</label>
+                        <select id="checkout_status" name="checkout_status" required>
+                            <option value="">Select Status</option>
+                            <option value="available">available</option>
+                            <option value="in use">in use</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="purchase_date">Purchase Date</label>
+                        <input type="date" id="purchase_date" name="purchase_date">
+                    </div>
+                    <div class="form-group">
+                        <label for="total_days_inuse">Total Days in Use</label>
+                        <input type="number" id="total_days_inuse" name="total_days_inuse" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="health">Health Status</label>
+                        <input type="text" id="health" name="health" placeholder="e.g., Good, Fair, Poor">
+                    </div>
+                    <div class="form-group">
+                        <label for="firmware_update">Firmware Update Date</label>
+                        <input type="date" id="firmware_update" name="firmware_update">
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Notes</label>
+                        <textarea id="notes" name="notes" placeholder="Enter notes"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" id="cancelAddEquipment">Cancel</button>
+                        <button type="submit" class="submit-btn">Add Equipment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Edit Equipment Modal -->
+    <div id="editEquipmentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-edit"></i> Edit Equipment</h2>
+                <span class="close-modal" id="closeEditModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="editEquipmentForm">
+                    <div class="form-group">
+                        <label for="model">Model</label>
+                        <input type="text" id="edit_model" name="edit_model" required>    
+                    </div>
+                    <div class="form-group">
+                        <label for="make">Make</label>
+                        <input type="text" id="edit_make" name="edit_make" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="serial_code">Serial Code</label>
+                        <input type="text" id="edit_serial_code" name="edit_serial_code" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="equip_type">Equipment Type</label>
+                        <select id="edit_equip_type" name="edit_equip_type" required>
+                            <option value="">Select Type</option>
+                            <option value="Laptop">Laptop</option>
+                            <option value="Desktop">Desktop</option>
+                            <option value="Monitor">Monitor</option>
+                            <option value="Printer">Printer</option>
+                            <option value="Projector">Projector</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <div id="edit_customTypeContainer" style="display: none; margin-top: 0.5rem;">
+                            <input type="text" id="edit_custom_equip_type" name="edit_custom_equip_type" placeholder="Enter equipment type">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout_status">Checkout Status</label>
+                        <select id="edit_checkout_status" name="edit_checkout_status" required>
+                            <option value="">Select Status</option>
+                            <option value="available">available</option>
+                            <option value="in Use">in Use</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="purchase_date">Purchase Date</label>
+                        <input type="date" id="edit_purchase_date" name="edit_purchase_date">
+                    </div>
+                    <div class="form-group">
+                        <label for="total_days_inuse">Total Days in Use</label>
+                        <input type="number" id="edit_total_days_inuse" name="edit_total_days_inuse" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="health">Health Status</label>
+                        <input type="text" id="edit_health" name="edit_health" placeholder="e.g., Good, Fair, Poor">
+                    </div>
+                    <div class="form-group">
+                        <label for="firmware_update">Firmware Update Date</label>
+                        <input type="date" id="edit_firmware_update" name="edit_firmware_update">
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Notes</label>
+                        <textarea id="edit_notes" name="edit_notes" placeholder="Enter notes"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="delete_equipment">Delete Equipment</label>
+                        <input type="button" id="delete_equipment" value="Delete Equipment">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" id="cancelEditEquipment">Cancel</button>
+                        <button type="submit" class="submit-btn">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="/js/inventory.js"></script>
+    
 </body>
 </html>
