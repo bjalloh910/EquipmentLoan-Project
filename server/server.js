@@ -12,7 +12,9 @@ app.set('view engine', 'ejs');
 // Import Routes here 
 const indexRoutes = require('./routes/index');
 const homeRoutes = require('./routes/home');
-const equipmentRoutes = require('./routes/equipmentInventory');
+const inventoryRoutes = require('./routes/equipmentInventory');
+const loanRoutes = require('./routes/loan');
+
 
 // Log database configuration (without sensitive info)
 console.log('Database Config:', {
@@ -30,7 +32,8 @@ app.use(express.static(path.join(__dirname, '../client')));
 // Use Routes
 app.use('/', indexRoutes);
 app.use('/home', homeRoutes);
-app.use('/equipment', equipmentRoutes);
+app.use('/', inventoryRoutes);
+app.use('/loans', loanRoutes);
 
 
 // Example API

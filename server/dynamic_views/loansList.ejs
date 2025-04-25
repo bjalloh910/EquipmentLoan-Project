@@ -1,0 +1,32 @@
+<h1>Loan Records</h1>
+<a href="/loans/new">Create New Loan</a>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>User</th>
+      <th>Equipment</th>
+      <th>Date Out</th>
+      <th>Date In</th>
+      <th>Location</th>
+      <th>Purpose</th>
+      <th>Units</th>
+      <th>Comments</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% loans.forEach(loan => { %>
+      <tr>
+        <td><%= loan.id %></td>
+        <td><%= loan.User?.name %></td>
+        <td><%= loan.Equipment?.model %></td>
+        <td><%= loan.date_out.toDateString() %></td>
+        <td><%= loan.date_in ? loan.date_in.toDateString() : 'N/A' %></td>
+        <td><%= loan.location || 'N/A' %></td>
+        <td><%= loan.purpose %></td>
+        <td><%= loan.units || 'N/A' %></td>
+        <td><%= loan.comments || 'N/A' %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
