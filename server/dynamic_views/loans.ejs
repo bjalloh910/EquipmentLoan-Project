@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>All Loans</title>
+</head>
+<body>
+  <h1>Loan Records</h1>
+  <table border="1">
+    <tr>
+      <th>ID</th>
+      <th>User ID</th>
+      <th>Equipment ID</th>
+      <th>Purpose</th>
+      <th>Date Out</th>
+      <th>Date In</th>
+      <th>Location</th>
+      <th>Units</th>
+      <th>Comments</th>
+    </tr>
+    <% loans.forEach(loan => { %>
+      <tr>
+        <td><%= loan.id %></td>
+        <td><%= loan.user_id %></td>
+        <td><%= loan.equipment_id %></td>
+        <td><%= loan.purpose %></td>
+        <td><%= loan.date_out.toDateString() %></td>
+        <td><%= loan.date_in ? loan.date_in.toDateString() : 'Not returned yet' %></td>
+        <td><%= loan.location %></td>
+        <td><%= loan.units %></td>
+        <td><%= loan.comments %></td>
+      </tr>
+    <% }) %>
+  </table>
+</body>
+</html>
