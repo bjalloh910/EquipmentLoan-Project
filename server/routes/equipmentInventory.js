@@ -5,6 +5,7 @@ const inventoryController = require('../controllers/equipmentInventoryController
 
 router.get('/', inventoryController.showInventory);
 router.get('/search', inventoryController.searchEquipment);
+router.get('/available', inventoryController.getAvailableEquipment);
 router.post('/toggle-status', inventoryController.toggleEquipmentStatus);
 router.post('/add', inventoryController.addEquipment);
 router.delete('/delete/:id', inventoryController.deleteEquipment);

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loan History - EquipTrack</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+        
+    /* Create a flex container for the entire page */
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Make the main content area grow to push the footer down */
+    main {
+      flex: 1 0 auto;
+    }
+        
+    /* Keep the footer at the bottom */
+    footer {
+      flex-shrink: 0;
+    }
+    .inventory-container {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .inventory-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding: 1rem;
+    }
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .equipment-table {
+      width: 100%;
+      min-width: 1200px;
+      border-collapse: collapse;
+      background: white;
+      margin-bottom: 0;
+    }
+    .equipment-table th {
+      background: #4a9eff;
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: white;
+      border-bottom: 2px solid #dee2e6;
+      white-space: nowrap;
+    }
+    .equipment-table td {
+      padding: 1rem;
+      border-bottom: 1px solid #dee2e6;
+      white-space: nowrap;
+    }
+    .equipment-table tr:hover {
+      background-color: #f8f9fa;
+    }
+    .search-bar {
+      padding: 0.75rem 1rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      width: 300px;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      background-color: #f8f9fa;
+    }
+    .search-bar:focus {
+      outline: none;
+      border-color: #4a9eff;
+      box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.15);
+      background-color: #ffffff;
+    }
+    .search-bar::placeholder {
+      color: #999;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <h1>EquipTrack</h1>
+    </div>
+    <ul class="nav-links">
+      <li><a href="/home">Home</a></li>
+      <li><a href="/equipment">Equipment</a></li>
+      <li><a href="/"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+  </nav>
+
+  <main class="inventory-container">
+    <div class="inventory-header">
+      <h1><i class="fas fa-history" style="color: #007bff;"></i> Loan History</h1>
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <form action="/loans/history/search" method="GET" style="position: relative; display: inline-block;">
+          <input type="text" name="query" class="search-bar" placeholder="Search loan history..." value="<%= locals.searchQuery || '' %>">
+          <button type="submit" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer;">
+            <i class="fas fa-search" style="color: #666;"></i>
+          </button>
+        </form>
+        <a href="/loans/new" style="background-color: #4a9eff; color: white; border: none; border-radius: 4px; padding: 0.5rem 1rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; cursor: pointer; transition: background-color 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-decoration: none;">
+          <i class="fas fa-plus"></i> New Loan
+        </a>
+      </div>
+    </div>
+
+    <% if (locals.searchQuery) { %>
+    <div style="margin-bottom: 1rem; padding: 0.5rem 1rem; background-color: #f8f9fa; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <span>Search results for: <strong><%= searchQuery %></strong></span>
+        <span style="margin-left: 1rem; color: #666;">(<%= loans.length %> results)</span>
+      </div>
+      <a href="/loans/history" style="color: #4a9eff; text-decoration: none; font-weight: 500;">
+        <i class="fas fa-times"></i> Clear Search
+      </a>
+    </div>
+    <% } %>
+
+    <div class="table-responsive">
+      <table class="equipment-table">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>99#</th>
+            <th>Equipment (Serial)</th>
+            <th>Purpose</th>
+            <th>Date Out</th>
+            <th>Date In</th>
+            <th>Location</th>
+            <th>Units</th>
+            <th>Comments</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% loans.forEach(loan => { %>
+            <tr>
+              <td><strong><%= loan.User ? loan.User.personnel_name : 'N/A' %></strong></td>
+              <td><%= loan.User ? loan.User.personnel_number : 'N/A' %></td>
+              <td><%= loan.Equipment ? `${loan.Equipment.model} (${loan.Equipment.serial_code})` : 'N/A' %></td>
+              <td><%= loan.purpose %></td>
+              <td><%= loan.date_out.toDateString() %></td>
+              <td><%= loan.date_in ? loan.date_in.toDateString() : 'Not returned yet' %></td>
+              <td><%= loan.location || 'N/A' %></td>
+              <td><%= loan.units || 'N/A' %></td>
+              <td><%= loan.comments || 'N/A' %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+   <!-- Add SweetAlert2 CSS -->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+   <!-- Add SweetAlert2 JS -->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <footer>
+    <p>&copy; 2025 Equipment Loan System. All rights reserved.</p>
+  </footer>
+</body>
+</html> 

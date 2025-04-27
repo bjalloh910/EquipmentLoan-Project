@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+
     // Add a helper function to format dates consistently
     function formatDate(dateString) {
         if (!dateString) return '';
@@ -38,15 +39,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response.ok) {
                     // Update the UI
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Status updated successfully!',
+                        confirmButtonColor: '#007bff'
+                    });
                     this.textContent = newStatus;
                     this.classList.toggle('status-available');
                     this.classList.toggle('status-checked-out');
                 } else {
-                    alert('Failed to update status. Please try again.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Failed to update status. Please try again.',
+                        confirmButtonColor: '#007bff'
+                    });
+                    //alert('Failed to update status. Please try again.');
                 }
             } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'An error occurred while updating the status.',
+                    confirmButtonColor: '#007bff'
+                });
                 console.error('Error:', error);
-                alert('An error occurred while updating the status.');
+                //alert('An error occurred while updating the status.');
             }
         });
     });
@@ -142,7 +161,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
 
                 if (response.ok) {
-                    alert('Equipment added successfully!');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Loan returned successfully!',
+                        confirmButtonColor: '#007bff'
+                    });
+                    //alert('Equipment added successfully!');
                     form.reset();
                     customTypeContainer.style.display = 'none';
                     closeModal();
@@ -204,6 +229,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             if (response.ok) {
                                 // Update the UI
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success!',
+                                    text: 'Status updated successfully!',
+                                    confirmButtonColor: '#007bff'
+                                });
                                 this.textContent = newStatus;
                                 this.classList.toggle('status-available');
                                 this.classList.toggle('status-checked-out');
@@ -216,12 +247,24 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     });
                 } else {
-                    alert('Failed to add equipment. Please try again.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Failed to add equipment. Please try again.',
+                        confirmButtonColor: '#007bff'
+                    });
+                    //alert('Failed to add equipment. Please try again.');
                     alert(data.message);
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('An error occurred while adding the equipment.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'An error occurred while adding the equipment.',
+                    confirmButtonColor: '#007bff'
+                });
+                //alert('An error occurred while adding the equipment.');
             }
         });
     }
@@ -280,27 +323,27 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Handle equipment type
             const equipType = cells[3].textContent.trim();
-            console.log("Equipment type from table:", equipType);
+            //console.log("Equipment type from table:", equipType);
             
             const equipTypeSelect = document.getElementById('edit_equip_type');
             const customTypeContainer = document.getElementById('edit_customTypeContainer');
             const customEquipTypeInput = document.getElementById('edit_custom_equip_type');
             
-            console.log("Equipment type select element:", equipTypeSelect);
-            console.log("Custom type container:", customTypeContainer);
-            console.log("Custom equip type input:", customEquipTypeInput);
+            //console.log("Equipment type select element:", equipTypeSelect);
+            //console.log("Custom type container:", customTypeContainer);
+            //console.log("Custom equip type input:", customEquipTypeInput);
             
             // Check if the equipment type is in our predefined list
             const predefinedTypes = ['Laptop', 'Desktop', 'Monitor', 'Printer', 'Projector'];
-            console.log("Is predefined type:", predefinedTypes.includes(equipType));
+            //console.log("Is predefined type:", predefinedTypes.includes(equipType));
             
             if (predefinedTypes.includes(equipType)) {
-                console.log("Setting to predefined type:", equipType);
+                //console.log("Setting to predefined type:", equipType);
                 equipTypeSelect.value = equipType;
                 if (customTypeContainer) customTypeContainer.style.display = 'none';
                 if (customEquipTypeInput) customEquipTypeInput.required = false;
             } else {
-                console.log("Setting to custom type:", equipType);
+                //console.log("Setting to custom type:", equipType);
                 equipTypeSelect.value = 'Other';
                 if (customTypeContainer) customTypeContainer.style.display = 'block';
                 if (customEquipTypeInput) {
@@ -315,7 +358,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const healthCell = cells[5].querySelector('.health-indicator');
             document.getElementById('edit_health').value = healthCell ? healthCell.textContent.trim() : cells[5].textContent.trim();
-            console.log("health cell ", healthCell);
             
             document.getElementById('edit_total_days_inuse').value = cells[6].textContent.trim();
             
@@ -360,8 +402,8 @@ document.addEventListener('DOMContentLoaded', () => {
             equipmentData['equip_type'] = formData.get('edit_equip_type');
         }
         
-        console.log('Equipment data to be updated:', equipmentData);
-        console.log('Sending request to:', `/equipment/update/${equipmentData.serial_code}`);
+        //console.log('Equipment data to be updated:', equipmentData);
+        //console.log('Sending request to:', `/equipment/update/${equipmentData.serial_code}`);
 
         try {
             const response = await fetch(`/equipment/update/${equipmentData.serial_code}`, {
@@ -372,12 +414,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(equipmentData)
             });
 
-            console.log('Response status:', response.status);
             const data = await response.json();
-            console.log('Server response:', response.status, data);
+            
 
             if (response.ok) {
-                alert('Equipment updated successfully!');
+                Swal.fire({ 
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Equipment updated successfully!',
+                    confirmButtonColor: '#007bff'
+                });
+                  
+                //alert('Equipment updated successfully!');
                 // Update the row in the table
                 const row = document.querySelector(`button[data-serial="${equipmentData.serial_code}"]`).closest('tr');
                 const cells = row.cells;
@@ -432,14 +480,32 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (response.ok) {
                         row.remove();
                         closeEditModal();
-                        alert('Equipment deleted successfully!');
+                        //alert('Equipment deleted successfully!');
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Equipment deleted successfully!',
+                            confirmButtonColor: '#007bff'
+                        });
                     } else {
                         const data = await response.json();
-                        alert('Failed to delete equipment: ' + data.message);
+                        //alert('Failed to delete equipment: ' + data.message);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Failed to delete equipment: ' + data.message,
+                            confirmButtonColor: '#007bff'
+                        });
                     }
                 } catch (error) {
                     console.error('Error:', error);
-                    alert('An error occurred while deleting the equipment.');
+                    //alert('An error occurred while deleting the equipment.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'An error occurred while deleting the equipment.',
+                        confirmButtonColor: '#007bff'
+                    });
                 }
             }
         });

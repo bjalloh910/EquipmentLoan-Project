@@ -1,5 +1,6 @@
 const { Equipment } = require('../models');
 const { Op } = require('sequelize');
+const { checkout } = require('../routes');
 
 exports.showInventory = async (req, res) => {
     try {
@@ -141,8 +142,6 @@ exports.deleteEquipment = async (req, res) => {
     try {
         const equipmentId  = req.params.id;
 
-        console.log('Going to delete equipment with ID:', equipmentId);
-
         await Equipment.destroy({ where: {id: equipmentId}});
 
         res.json({ 
@@ -162,26 +161,33 @@ exports.deleteEquipment = async (req, res) => {
 exports.updateEquipment = async (req, res) => {
     const { serial_code } = req.params;
     const updateData = req.body;
-    
-    console.log('Update request received for serial_code:', serial_code);
-    console.log('Update data:', updateData);
 
     try {
         const equipment = await Equipment.findOne({ where: { serial_code } });
         
         if (!equipment) {
-            console.log('Equipment not found for serial_code:', serial_code);
             return res.status(404).json({ message: 'Equipment not found' });
         }
 
         // Update the equipment with the new data
         await equipment.update(updateData);
-        console.log('Equipment updated successfully');
 
         res.json({ message: 'Equipment updated successfully', equipment });
     } catch (error) {
         console.error('Error updating equipment:', error);
         res.status(500).json({ message: 'Failed to update equipment', error: error.message });
+    }
+};
+
+exports.getAvailableEquipment = async (req, res) => {
+    try {
+        const availableEquipment = await Equipment.findAll({
+            where: { checkout_status: 'available' }
+        });
+        res.json({ equipment: availableEquipment });
+    } catch (error) {
+        console.error('Error getting available equipment:', error);
+        res.status(500).json({ error: 'Failed to get available equipment' });
     }
 };
 
@@ -192,4 +198,5 @@ module.exports = {
     addEquipment: exports.addEquipment,
     deleteEquipment: exports.deleteEquipment,
     updateEquipment: exports.updateEquipment,
+    getAvailableEquipment: exports.getAvailableEquipment
 };
