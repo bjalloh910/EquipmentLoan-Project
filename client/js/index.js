@@ -53,16 +53,18 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Basic validation
             if (password !== confirmPassword) {
-                alert('Passwords do not match!');
+                // alert('Passwords do not match!');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Passwords do not match!',
+                    confirmButtonColor: '#007bff'
+                });
                 return;
             }
             
             // Here you would typically send this data to your server
             console.log('Signup attempt:', { name, email, password });
-            
-            // For demo purposes, redirect to home page
-            // In a real app, you would create the account first
-            // window.location.href = '/home';
         });
     }
 }); 

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Users List - EquipTrack</title>
+        <link rel="stylesheet" href="/css/styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <style>
+            html, body {
+                height: 100%;
+                margin: 0;
+            }
+            
+            /* Create a flex container for the entire page */
+            body {
+                display: flex;
+                flex-direction: column;
+            }
+            
+            /* Make the main content area grow to push the footer down */
+            main {
+                flex: 1 0 auto;
+            }
+            
+            /* Keep the footer at the bottom */
+            footer {
+                flex-shrink: 0;
+            }
+            .inventory-container {
+                padding: 2rem;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            .inventory-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 2rem;
+                padding: 1rem;
+            }
+            .search-bar {
+            padding: 0.75rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            width: 300px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+            }
+            .search-bar:focus {
+                outline: none;
+                border-color: #4a9eff;
+                box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.15);
+                background-color: #ffffff;
+            }
+            .search-bar::placeholder {
+                color: #999;
+                opacity: 0.8;
+            }
+            .table-responsive {
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                margin-bottom: 1rem;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .equipment-table {
+                width: 100%;
+                min-width: 1200px;
+                border-collapse: collapse;
+                background: white;
+                margin-bottom: 0;
+            }
+            .equipment-table th {
+                background: #4a9eff;
+                padding: 1rem;
+                text-align: left;
+                font-weight: 600;
+                color: white;
+                border-bottom: 2px solid #dee2e6;
+                white-space: nowrap;
+            }
+            .equipment-table td {
+                padding: 1rem;
+                border-bottom: 1px solid #dee2e6;
+                white-space: nowrap;
+            }
+            .equipment-table tr:hover {
+                background-color: #f8f9fa;
+            }
+            .search-container {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            /* Modal Styles */
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 1000;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                overflow: auto;
+            }
+
+            .modal-content {
+                background-color: #fefefe;
+                margin: 5% auto;
+                padding: 0;
+                border-radius: 8px;
+                width: 60%;
+                max-width: 600px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+                animation: modalFadeIn 0.3s;
+            }
+
+            @keyframes modalFadeIn {
+                from {opacity: 0; transform: translateY(-20px);}
+                to {opacity: 1; transform: translateY(0);}
+            }
+
+            .modal-header {
+                padding: 1rem 1.5rem;
+                background-color: #4a9eff;
+                color: white;
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .modal-header h2 {
+                margin: 0;
+                font-size: 1.5rem;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .close-modal {
+                color: white;
+                font-size: 1.8rem;
+                font-weight: bold;
+                cursor: pointer;
+                transition: transform 0.2s;
+            }
+
+            .close-modal:hover {
+                transform: scale(1.1);
+            }
+
+            .modal-body {
+                padding: 1.5rem;
+            }
+
+            .form-group {
+                margin-bottom: 1.2rem;
+            }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 500;
+                color: #333;
+                font-size: 1.1rem;
+            }
+
+            .form-group input, .form-group select, .form-group textarea {
+                width: 100%;
+                padding: 0.75rem;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                font-size: 1.1rem;
+                transition: border-color 0.2s;
+            }
+
+            .form-group textarea {
+                min-height: 100px;
+                resize: vertical;
+            }
+
+            .form-group input:focus, .form-group select:focus {
+                outline: none;
+                border-color: #4a9eff;
+                box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.2);
+            }
+
+            .form-actions {
+                display: flex;
+                justify-content: flex-end;
+                gap: 1rem;
+                margin-top: 1.5rem;
+            }
+
+            .cancel-btn {
+                padding: 0.75rem 1.5rem;
+                background-color: #f1f1f1;
+                color: #333;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: 500;
+                transition: background-color 0.2s;
+            }
+
+            .cancel-btn:hover {
+                background-color: #e0e0e0;
+            }
+
+            .submit-btn {
+                padding: 0.75rem 1.5rem;
+                background-color: #4a9eff;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: 500;
+                transition: background-color 0.2s;
+            }
+
+            .submit-btn:hover {
+                background-color: #3a8eef;
+            }
+
+            /* Action Buttons Styling */
+            .action-buttons {
+                display: flex;
+                gap: 20px;
+            }
+            .edit-btn, .delete-btn {
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 0.5rem;
+                border-radius: 4px;
+                transition: all 0.2s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .edit-btn {
+                color: #4a9eff;
+                background-color: rgba(74, 158, 255, 0.1);
+            }
+            .edit-btn:hover {
+                background-color: rgba(74, 158, 255, 0.2);
+                transform: scale(1.05);
+            }
+            .delete-btn {
+                color: #dc3545;
+                background-color: rgba(220, 53, 69, 0.1);
+            }
+            .delete-btn:hover {
+                background-color: rgba(220, 53, 69, 0.2);
+                transform: scale(1.05);
+            }
+            .delete-btn-modal {
+                background-color: #dc3545;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 0.75rem 1.5rem;
+                cursor: pointer;
+                font-weight: 500;
+                transition: background-color 0.2s;
+                margin-bottom: 1rem;
+                width: 100%;
+            }
+            .delete-btn-modal:hover {
+                background-color: #c82333;
+            }
+        </style>
+    </head>
+    
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <h1>EquipTrack</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/home">Home</a></li>
+            <li><a href="/equipment">Equipment</a></li>
+            <li><a href="/loans">Loans</a></li>
+            <li><a href="/"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </nav>
+
+    <main class="inventory-container">
+        <div class="inventory-header">
+            <h1><i class="fas fa-users" style="color: #007bff;"></i> Users List</h1>
+            <div class="search-container">
+                <form action="/users/search" method="GET" style="position: relative; display: inline-block;">
+                    <input type="text" name="query" class="search-bar" placeholder="Search users...">
+                    <button type="submit" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer;">
+                        <i class="fas fa-search" style="color: #666;"></i>
+                    </button>
+                </form>
+                <button id="addNewUserBtn" style="background-color: #4a9eff; color: white; border: none; border-radius: 4px; padding: 0.5rem 1rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; cursor: pointer; transition: background-color 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-decoration: none;">
+                    <i class="fas fa-user-plus"></i> Add User
+                </button>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="equipment-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Contact Type</th>
+                        <th>Email</th>
+                        <th>99 Number</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(user => { %>
+                        <tr>
+                            <td><strong><%= user.personnel_name %></strong></td>
+                            <td><%= user.contact_type %></td>
+                            <td><%= user.email %></td>
+                            <td><%= user.personnel_number || 'N/A' %></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="edit-btn" data-id="<%= user.id %>" title="Edit User"><i class="fas fa-edit"></i></button>
+                                    <button class="delete-btn" data-id="<%= user.id %>" title="Delete User"><i class="fas fa-trash-alt"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Add A New User Modal -->
+    <div id="addNewUserModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-plus-circle"></i> Add A New User</h2>
+                <span class="close-modal" id="cancelX">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addUserForm">
+                    <div class="form-group">
+                        <label for="personnel_name">User Name</label>
+                        <input type="text" id="personnel_name" name="user_name" required>
+                    </div>
+                    <div class="form-group">    
+                        <label for="contact_type">Contact Type</label>
+                        <select id="contact_type" name="contact_type" required>
+                            <option value="">Select Type</option>
+                            <option value="Staff">Staff</option>
+                            <option value="Student">Student</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <div id="customTypeContainer" style="display: none; margin-top: 0.5rem;">
+                            <input type="text" id="custom_contact_type" name="custom_contact_type" placeholder="Enter contact type">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="personnel_number">User 99 Number</label>
+                        <input type="text" id="personnel_number" name="user_number" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" id="cancelAddNewUser">Cancel</button>
+                        <button type="submit" class="submit-btn">Add User</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div id="editUserModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-edit"></i> Edit User</h2> 
+                <span class="close-modal" id="closeXModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="editUserForm"> 
+                    <div class="form-group">
+                        <label for="edit_personnel_name">User Name</label>
+                        <input type="text" id="edit_personnel_name" name="user_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_contact_type">Contact Type</label>
+                        <select id="edit_contact_type" name="contact_type" required>
+                            <option value="">Select Type</option>
+                            <option value="Staff">Staff</option>
+                            <option value="Student">Student</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <div id="edit_customTypeContainer" style="display: none; margin-top: 0.5rem;">
+                            <input type="text" id="edit_custom_contact_type" name="custom_contact_type" placeholder="Enter contact type">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_email">Email</label>
+                        <input type="email" id="edit_email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_personnel_number">User 99 Number</label>
+                        <input type="text" id="edit_personnel_number" name="user_number" required>
+                    </div>
+                    <button type="button" class="delete-btn-modal" id="deleteUserBtn"><i class="fas fa-trash-alt"></i> Delete User</button>
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" id="cancelEditUser">Cancel</button>
+                        <button type="submit" class="submit-btn">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Equipment Loan System. All rights reserved.</p>
+    </footer>
+
+     <!-- Add SweetAlert2 CSS -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+     <!-- Add SweetAlert2 JS -->
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/user.js"></script>
+</body>
+</html>
