@@ -14,7 +14,7 @@ This is a full-stack web application for managing equipment checkouts and return
 ## 🛠️ Tech Stack
 
 **Frontend**
-- HTML, CSS, JavaScript
+- HTML, CSS, EJS, JavaScript
 
 **Backend**
 - Node.js + Express
