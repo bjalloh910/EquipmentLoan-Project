@@ -85,7 +85,7 @@ npm start
 ![Demo of Equipment Loan App](media/demo.gif)
 
 ## 📁 Project Structure:
-<pre> ```
+<pre>
 EquipmentLoan-Project/
 ├── client/ # Frontend files
 | ├── css folder
@@ -109,7 +109,7 @@ EquipmentLoan-Project/
 ├── .env # Environment variables
 ├── README.md # Project documentation
 └── package.json # Project dependencies
-``` </pre>
+</pre>
 
 🧑‍💻 How to Use the Prototype
 
