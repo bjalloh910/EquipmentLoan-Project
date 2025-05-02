@@ -82,7 +82,7 @@ npm start
 ```
 
 ✨ UI Screenshots
-![Demo of Equipment Loan App](media/demo.gif)
+[Demo of Equipment Loan App](media/demo.gif)
 
 ## 📁 Project Structure:
 <pre>
