@@ -36,7 +36,7 @@ This is a full-stack web application for managing equipment checkouts and return
   - `model`, `make`, `equip_type`, `checkout_status`
   - `purchase_date`, `firmware_update`, `total_days_inuse`
  
-  - **Loans**
+- **Loans**
   - `id` (PK)
   - `user_id` (FK)
   - `equipment_id` (FK)
