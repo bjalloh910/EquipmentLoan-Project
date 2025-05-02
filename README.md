@@ -82,6 +82,7 @@ npm start
 ```
 
 ✨ UI Screenshots
+
 ![Demo of Equipment Loan App](Media/demo.gif)
 
 ## 📁 Project Structure:
