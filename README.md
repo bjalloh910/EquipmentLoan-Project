@@ -46,6 +46,7 @@ This is a full-stack web application for managing equipment checkouts and return
 ## 🧱 Set Up the Database
 ```bash
 mysql -u root -p -e "CREATE DATABASE equipment_loan_db;"
+```
 
 ## 🚀 Getting Started
 
@@ -53,10 +54,12 @@ mysql -u root -p -e "CREATE DATABASE equipment_loan_db;"
 ```bash
 git clone https://github.com/yourusername/EquipmentLoan-Project.git
 cd EquipmentLoan-Project
+```
 
 ### 2. Install dependencies
 ```bash
 npm install
+```
 
 ### 3. Configure environment
 ```env
@@ -65,15 +68,18 @@ DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=yourpassword
 DB_NAME=equipment_loan_db
+```
 
 ### 3. Run migrations and seeders
 ```bash
 npx sequelize-cli db:migrate
 npx sequelize-cli db:seed:all
+```
 
 ### 3. Start the server
 ```bash
 npm start
+```
 
 ✨ UI Screenshots
 
@@ -113,9 +119,9 @@ EquipmentLoan-Project/
 
 🔗 Presentation
 
-[My link](https://docs.google.com/presentation/d/1HnBogkXBVnkO6J22Bnmijkn6eQb6-pgmB9FQunmOr1c/edit?usp=sharing)
-[hi](https://google.com)
-View Project Presentation
+📽️ [View Project Presentation](https://docs.google.com/presentation/d/1HnBogkXBVnkO6J22Bnmijkn6eQb6-pgmB9FQunmOr1c/edit?usp=sharing)
+ 
+
 
 
 
